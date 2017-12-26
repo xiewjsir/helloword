@@ -397,4 +397,20 @@ return sum
 """
 闭包
 注意到返回的函数在其定义内部引用了局部变量 args，所以，当一个函 数返回了一个函数后，其内部的局部变量还被新函数引用，所以，闭包 用起来简单，实现起来可不容易。
+返回闭包时牢记的一点就是：返回函数不要引用任何循环变量，或者后
+续会发生变化的变量。
 """
+def count():
+	def f(j):
+		def g():
+			retun j*j
+		 return g
+	fs = []
+	for i in range(1,4):
+		fs.append(f(i))
+	return fs
+
+f1,f2,f3 = count()
+f1()
+f2()
+f3()
