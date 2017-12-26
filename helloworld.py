@@ -157,7 +157,6 @@ person('awei',30,**dict)
 """
 命名关键字参数
 要限制关键字参数的名字，就可以用命名关键字参数，例如，只接收city和job作为关键字参数。这种方式定义的函数如下：
-……
 和关键字参数**kw不同，命名关键字参数需要一个特殊分隔符*，*后面的参数被视为命名关键字参数。
 """
 def person(name,age,*,city,job):
@@ -384,7 +383,8 @@ sorted([36, 5, -12, 9, -21], key=abs)
 返回函数
 高阶函数除了可以接受函数作为参数外，还可以把函数作为结果值返
 回。
-在这个例子中，我们在函数 lazy_sum 中又定义了函数 sum，并且，内部 函数 sum 可以引用外部函数 lazy_sum 的参数和局部变量，当 lazy_sum 返 回函数 sum 时，相关参数和变量都保存在返回的函数中，这种称为“闭包 (Closure)”的程序结构拥有极大的威力。
+在这个例子中，我们在函数 lazy_sum 中又定义了函数 sum，并且，内部 函数 sum 可以引用外部函数 lazy_sum 的参数和局部变量，当 lazy_sum 返 回函数 sum 时，相关参数和变量都保存在返回的函数中，
+这种称为“闭包 (Closure)”的程序结构拥有极大的威力。
 """
 def lazy_sum(*args):
     def sum():
@@ -414,3 +414,129 @@ f1,f2,f3 = count()
 f1()
 f2()
 f3()
+
+"""
+匿名函数
+关键字 lambda 表示匿名函数，冒号前面的 x 表示函数参数。
+匿名函数有个限制，就是只能有一个表达式，不用写 return，返回值就是该表达式的结果.
+用匿名函数有个好处，因为函数没有名字，不必担心函数名冲突。此外，匿名函数也是一个函数对象，也可以把匿名函数赋值给一个变量，再利用变量来调用该函数
+"""
+f = lambda x:x*x
+f(6)
+
+"""
+装饰器(decorator)
+"""
+def log(func):
+	def wrapper(*args,**kw):
+		print('call %s():'%func.__name__)
+		return func(*args,**kw)
+	return wrapper
+
+@log  #把@log 放到 now()函数的定义处，相当于执行了语句：now = log(now)
+def now():
+	print('2017-12-26')
+
+
+"""
+偏函数
+简单总结 functools.partial 的作用就是，把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单。
+"""
+def int2(x,base=2):
+	return int(x,base)
+
+int2('1010101')
+
+import functools
+int3 = functools.partial(int,base=2)
+int3('1010101')
+
+
+"""
+模块、包
+在 Python 中，一个.py 文件就称之为一个模块（Module）
+每一个包目录下面都会有一个__init__.py 的文件，这个文件是必须存在的，否则，Python 就把这个目录当成普通目录，而不是一个包。
+"""
+
+"""
+安装第三方库
+
+一般来说，第三方库都会在 Python 官方的 pypi.python.org 网站注册，要安装一个第三方库，必须先知道该库的名称，可以在官网或者 pypi 上
+搜索，比如 Pillow 的名称叫 Pillow，因此，安装 Pillow 的命令就是：pip install Pillow
+"""
+import sys
+print(sys.path)
+
+"""
+OOP
+类和实例
+封装
+"""
+class student(object):
+	def __init__(self,name,score):
+		self.name=name
+		self.score=score
+
+	def print_score(self):
+		print('%s,%s'%(self.name,self.score))
+
+"""
+注意到__init__方法的第一个参数永远是 self，表示创建的实例本身，因此，在__init__方法内部，就可以把各种属性绑定到 self，因为 self
+就指向创建的实例本身。有了__init__方法，在创建实例的时候，就不能传入空的参数了，必须传入与__init__方法匹配的参数，但 self 不需要传，
+Python 解释器自己会把实例变量传进去：
+"""
+
+"""
+访问限制
+在 Python 中，实例的变量名如果以__开头，就变成了一个私有变量（private），只有内部可以访问，外部不能访问,Python 本身没有任何机制阻止你干坏事，一切全靠自觉。
+"""
+class student(object):
+	def __init__(self,name,score):
+		self.__name=name
+		self.__score=score
+
+	def print_score(self):
+		print('%s,%s'%(self.__name,self.__score))
+
+
+
+"""
+继承和多态
+静态语言 vs 动态语言
+"""
+class Animal(Object):
+	def run(self):
+		print('Animal is running...')
+
+class Dog(Animal):
+	pass
+
+class Cat(Animal):
+	pass
+
+def run_twice(animal):
+    animal.run()
+    animal.run()
+
+dog = Dog()
+dog.run()
+
+print('d is Cat?', isinstance(dog, Cat))
+
+run_twice(c)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
