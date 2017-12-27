@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #this a test
-""""""
+
 
 """
 list  : classmates = ['Michael', 'Bob', 'Tracy']
@@ -17,7 +17,7 @@ classmates.pop()
 classmates.pop(1)
 
 '''
-tuple  另一种有序列表叫元组：tuple。tuple和list非常类似，但是tuple一旦初始化就不能修改.因为tuple不可变，所以代码更安全。如果可能，能用tuple代替list就尽量用tuple,
+另一种有序列表叫元组：tuple。tuple和list非常类似，但是tuple一旦初始化就不能修改.因为tuple不可变，所以代码更安全。如果可能，能用tuple代替list就尽量用tuple,
 只有1个元素的tuple定义时必须加一个逗号，来消除歧义.list和tuple是Python内置的有序集合，一个可变，一个不可变。根据需要来选择使用它们。
 t = (1,)
 '''
@@ -525,6 +525,43 @@ print('d is Cat?', isinstance(dog, Cat))
 
 run_twice(c)
 
+"""
+获取对象信息
+使用 type()
+
+使用 isinstance()
+对于 class 的继承关系来说，使用 type()就很不方便。我们要判断 class的类型，可以使用 isinstance()函数。
+
+使用 dir()
+如果要获得一个对象的所有属性和方法，可以使用 dir()函数，它返回一个包含字符串的 list
+"""
+class MyObject(object):
+
+    def __init__(self):
+        self.x = 9
+
+    def power(self):
+        return self.x * self.x
+
+obj = MyObject()
+
+print('hasattr(obj, \'x\') =', hasattr(obj, 'x')) # 有属性'x'吗？
+print('hasattr(obj, \'y\') =', hasattr(obj, 'y')) # 有属性'y'吗？
+setattr(obj, 'y', 19) # 设置一个属性'y'
+print('hasattr(obj, \'y\') =', hasattr(obj, 'y')) # 有属性'y'吗？
+print('getattr(obj, \'y\') =', getattr(obj, 'y')) # 获取属性'y'
+print('obj.y =', obj.y) # 获取属性'y'
+
+print('getattr(obj, \'z\') =',getattr(obj, 'z', 404)) # 获取属性'z'，如果不存在，返回默认值404
+
+f = getattr(obj, 'power') # 获取属性'power'
+print(f)
+print(f())
+
+"""
+在编写程序的时候，千万不要把实例属性和类属性使用相同的名字，因为相同名称的实例属性将屏蔽掉类属性，但是
+当你删除实例属性后，再使用相同的名称，访问到的将是类属性
+"""
 
 
 
