@@ -578,11 +578,53 @@ for f in os.listdir(pwd):
 
 """
 序列化
+我们把变量从内存中变成可存储或传输的过程称之为序列化，在 Python中叫 pickling，
+在其他语言中也被称之为 serialization，marshalling，flattening 等等，都是一个意思。
+反过来，把变量内容从序列化的对象重新读到内存里称之为反序列化，即 unpickling。
+
+JSON
+如果我们要在不同的编程语言之间传递对象，就必须把对象序列化为标准格式，比如 XML，但更好的方法是序列化为 JSON，
+因为 JSON 表示出来就是一个字符串，可以被所有语言读取，也可以方便地存储到磁盘或者通过网络传输。
+JSON 不仅是标准格式，并且比 XML 更快，而且可以直接在 Web 页面中读取，非常方便。
+
+Python语言特定的序列化模块是pickle，但如果要把序列化搞得更通用、更符合 Web 标准，就可以使用 json 模块。
+json 模块的 dumps()和 loads()函数是定义得非常好的接口的典范。
 """
+import pickle
+
+d = dict(name='Bob', age=20, score=88)
+data = pickle.dumps(d)
+print(data)
+
+reborn = pickle.loads(data)
+print(reborn)
 
 
 
 
+import json
+
+d = dict(name='Bob', age=20, score=88)
+data = json.dumps(d)
+print('JSON Data is a str:', data)
+reborn = json.loads(data)
+print(reborn)
+
+class Student(object):
+
+    def __init__(self, name, age, score):
+        self.name = name
+        self.age = age
+        self.score = score
+
+    def __str__(self):
+        return 'Student object (%s, %s, %s)' % (self.name, self.age, self.score)
+
+s = Student('Bob', 20, 88)
+std_data = json.dumps(s, default=lambda obj: obj.__dict__)
+print('Dump Student:', std_data)
+rebuild = json.loads(std_data, object_hook=lambda d: Student(d['name'], d['age'], d['score']))
+print(rebuild)
 
 
 
