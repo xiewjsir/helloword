@@ -277,6 +277,22 @@ loop = asyncio.get_event_loop()
 loop.run_until_complete(init(loop))
 loop.run_forever()
 
+"""
+搭建开发环境
+
+python3 --version  查看python版本
+
+异步框架 aiohttp：
+pip3 install aiohttp
+
+前端模板引擎 jinja2：
+pip3 install jinja2
+
+MySQL 的 Python 异步驱动程序 aiomysql：
+pip3 install aiomysql
+"""
+
+
 
 
 
