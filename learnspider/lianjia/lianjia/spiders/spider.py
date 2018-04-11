@@ -8,23 +8,14 @@ from lianjia.items import LianjiaItem
 
 class Lianjia_spider(Spider):
     name = 'lianjia'
-    allowed_domains = ['nj.lianjia.com']
-    regions = {'gulou': '鼓楼',
-               'jianye': '建邺',
-               'qinhuai': '秦淮',
-               'xuanwu': '玄武',
-               'yuhuatai': '雨花台',
-               'qixia': '栖霞',
-               'jiangning': '江宁',
-               'liuhe': '六合',
-               'pukou': '浦口',
-               'lishui': '涟水',
-               'gaochun': '高淳'
+    allowed_domains = ['sz.lianjia.com']
+    regions = {'luohuqu': '罗湖区',
+               'futianqu': '福田区',
                }
 
     def start_requests(self):
         for region in list(self.regions.keys()):
-            url = "https://nj.lianjia.com/xiaoqu/" + region + "/"
+            url = "https://sz.lianjia.com/xiaoqu/" + region + "/"
             yield Request(url=url, callback=self.parse, meta={'region': region})  # 用来获取页码
 
     def parse(self, response):
@@ -35,14 +26,14 @@ class Lianjia_spider(Spider):
         total_pages = sel.get("totalPage")
 
         for i in range(int(total_pages)):
-            url_page = "https://nj.lianjia.com/xiaoqu/{}/pg{}/".format(region, str(i + 1))
+            url_page = "https://sz.lianjia.com/xiaoqu/{}/pg{}/".format(region, str(i + 1))
             yield Request(url=url_page, callback=self.parse_xiaoqu, meta={'region': region})
 
     def parse_xiaoqu(self, response):
         selector = etree.HTML(response.text)
         xiaoqu_list = selector.xpath('//ul[@class="listContent"]//li//div[@class="title"]/a/text()')
         for xq_name in xiaoqu_list:
-            url = "https://nj.lianjia.com/chengjiao/rs" + quote(xq_name) + "/"
+            url = "https://sz.lianjia.com/chengjiao/rs" + quote(xq_name) + "/"
             yield Request(url=url, callback=self.parse_chengjiao,
                           meta={'xq_name': xq_name, 'region': response.meta['region']})
 
@@ -55,7 +46,7 @@ class Lianjia_spider(Spider):
             page_data = json.loads(content[0].xpath('./@page-data')[0])
             total_pages = page_data.get("totalPage")  # 获取总的页面数量
         for i in range(int(total_pages)):
-            url_page = "https://nj.lianjia.com/chengjiao/pg{}rs{}/".format(str(i + 1), quote(xq_name))
+            url_page = "https://sz.lianjia.com/chengjiao/pg{}rs{}/".format(str(i + 1), quote(xq_name))
             yield Request(url=url_page, callback=self.parse_content, meta={'region': response.meta['region']})
 
     def parse_content(self, response):
