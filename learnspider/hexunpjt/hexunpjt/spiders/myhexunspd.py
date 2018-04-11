@@ -55,7 +55,7 @@ class MyhexunspdSpider(scrapy.Spider):
         # 在实际运行中，下一行print的代码可以注释掉，在调试过程中，可以开启下一行print的代码
         # print("一共"+str(totalurl)+"页")
         # 进入for循环，依次爬取各博文列表页的博文数据
-        for i in range(2, 4):
+        for i in range(2, int(totalurl) + 1):
             # 构造下一次要爬取的url，爬取一下页博文列表页中的数据
             nexturl = "http://" + str(self.uid) + ".blog.hexun.com/p" + str(i) + "/default.html"
             # 进行下一次爬取，下一次爬取仍然模拟成浏览器进行

@@ -10,12 +10,14 @@ import scrapy
 
 class AutopjtItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    # 定义好name用来存储商品名
-    name = scrapy.Field()
-    # 定义好price用来存储商品价格
+    title = scrapy.Field()
+    house_code = scrapy.Field()
+    region = scrapy.Field()
+    village = scrapy.Field()
+    desc = scrapy.Field()
+    flood = scrapy.Field()
+    follow_info = scrapy.Field()
+    sub_way = scrapy.Field()
+    tax_free = scrapy.Field()
+    total_price = scrapy.Field()
     price = scrapy.Field()
-    # 定义好link用来存储商品链接
-    link = scrapy.Field()
-    # 定义好comnum用来存储商品评论数
-    comnum = scrapy.Field()

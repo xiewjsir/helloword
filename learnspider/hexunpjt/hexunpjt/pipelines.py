@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import pymysql
+#import mysql.connector
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
@@ -11,6 +12,8 @@ class HexunpjtPipeline(object):
     def __init__(self):
         # 刚开始时连接对应数据库
         self.conn = pymysql.connect(host="127.0.0.1", user="root", passwd="", db="hexun",port=3306,charset="utf8")
+        #self.conn = mysql.connector.connect(user='root', password='',database='hexun',charset="utf8")
+
 
     def process_item(self, item, spider):
         # 每一个博文列表页中包含多篇博文的信息，我们可以通过for循环一次处理各博文的信息
@@ -27,6 +30,8 @@ class HexunpjtPipeline(object):
             #cursor = self.conn.cursor()
             #cursor.execute(sql)
             self.conn.query(sql)
+            self.conn.commit()
+
         return item
 
     def close_spider(self, spider):
