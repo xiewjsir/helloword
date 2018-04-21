@@ -9,9 +9,22 @@ from lianjia.items import LianjiaItem
 class Lianjia_spider(Spider):
     name = 'lianjia'
     allowed_domains = ['sz.lianjia.com']
-    regions = {'luohuqu': '罗湖区',
+    regions2 = {'luohuqu': '罗湖区',
                'futianqu': '福田区',
+               'nanshanqu': '南山区',
+               'yantianqu': '盐田区',
+               'baoanqu': '宝安区',
+               'longgangqu': '龙岗区',
+               'longhuaqu': '龙华区',
+               'guangmingxinqu': '光明新区',
+               'pingshanqu': '坪山区',
+               'dapengxinqu': '大鹏新区',
                }
+
+    regions = {
+               'longgangqu': '龙岗区',
+               }
+
 
     def start_requests(self):
         for region in list(self.regions.keys()):
@@ -25,7 +38,7 @@ class Lianjia_spider(Spider):
         sel = json.loads(sel)  # 转化为字典
         total_pages = sel.get("totalPage")
 
-        for i in range(int(total_pages)):
+        for i in range(1):#int(total_pages)
             url_page = "https://sz.lianjia.com/xiaoqu/{}/pg{}/".format(region, str(i + 1))
             yield Request(url=url_page, callback=self.parse_xiaoqu, meta={'region': region})
 

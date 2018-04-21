@@ -25,3 +25,4 @@ class LianjiaItem(Item):
     fangchan_class = Field()   #房产类型
     school = Field()         #周边学校
     subway = Field()         #周边地铁
+    add_time = Field()
